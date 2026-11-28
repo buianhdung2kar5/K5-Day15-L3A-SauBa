@@ -7,7 +7,10 @@ Track: A (EdTech) — Tự kiểm kiến thức sau một buổi học và tìm 
 Dữ liệu BTC: metadata hậu kiểm trong `data-btc/preclass/answers.csv`. Benchmark chỉ lưu mã bản ghi và ca chuyển thể. Xem `data/DATA_CARD.md`.
 
 ## §0. Hiện tại việc này diễn ra thế nào *(guide 1.1)*
-- Luồng tổng hợp từ khảo sát: học viên chọn buổi cần ôn → đọc lại slide hoặc xem video → tự kiểm bằng câu hỏi hoặc bài tập có sẵn → quay lại đoạn liên quan khi phát hiện chỗ hổng. Chưa quan sát trực tiếp toàn bộ luồng và chưa có ảnh từ tài khoản học viên.
+- Luồng tổng hợp từ khảo sát: học viên chọn buổi cần ôn → đọc lại slide hoặc xem lại bài trên Preclass Online → tự kiểm bằng câu hỏi hoặc bài tập có sẵn → quay lại đoạn liên quan khi phát hiện chỗ hổng. Chưa quan sát trực tiếp toàn bộ luồng.
+- Ảnh minh họa thực tế (đã kiểm tra không chứa thông tin cá nhân):
+  - Giao diện bài học Preclass Online: `evidence/images/preclass-online.jpg`
+  - Tài liệu slide PDF khi tự ôn (trang 12–13/67): `evidence/images/slide-pdf.jpg`
 - Công cụ được nêu trong khảo sát gồm slide, video và AI tạo đề. 6/21 phản hồi cho biết từng dùng AI ra câu hỏi nhưng gặp câu lan man hoặc lệch tài liệu. Xem câu 5 trong `evidence/summary.md` và bản xuất khảo sát.
 
 ## §1. Người dùng & bằng chứng *(guide 1.1, 1.2)*
@@ -154,6 +157,7 @@ Dữ liệu BTC: metadata hậu kiểm trong `data-btc/preclass/answers.csv`. Be
 | Thời điểm | Đổi gì | Vì sao (trỏ về câu thử / lỗi / bằng chứng nào) |
 |---|---|---|
 | 28/11 | Điền spec §0–§7 và thiết lập kịch bản thử chi phí | Đối chiếu với khảo sát, hậu kiểm BTC và lỗi Lượt 1. Tần suất và thời gian chưa đo được ghi rõ là tự ước tính. |
+| 28/11 | Bổ sung 2 ảnh quy trình tự ôn vào §0 (`evidence/images/`), cập nhật §3 và trạng thái xác minh khảo sát trong `evidence/summary.md` | Hoàn thiện hồ sơ bằng chứng CP3; ghi rõ giới hạn form ẩn danh không thu email nên chưa xác minh được số phiếu ngoài nhóm. |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 

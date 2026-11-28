@@ -154,6 +154,9 @@ Dữ liệu BTC: metadata hậu kiểm trong `data-btc/preclass/answers.csv`. Be
 | Thời điểm | Đổi gì | Vì sao (trỏ về câu thử / lỗi / bằng chứng nào) |
 |---|---|---|
 | 28/11 | Điền spec §0–§7 và thiết lập kịch bản thử chi phí | Đối chiếu với khảo sát, hậu kiểm BTC và lỗi Lượt 1. Tần suất và thời gian chưa đo được ghi rõ là tự ước tính. |
+| 28/11 | `codebase/agent.py`: nhánh chấm đổi từ "model viết cả kết luận" sang "model chỉ trả JSON trạng thái từng ý (đạt / thiếu / mâu thuẫn / chưa rõ); code kiểm JSON, tổng hợp nhãn theo luật rubric, lấy mã đoạn từ rubric, chỉ giữ câu trích có thật trong bài làm; JSON hỏng hai lần thì báo chưa chấm được". Có ý chưa rõ thì hỏi lại đúng ý đó, không đưa vào danh sách ôn. Chỉ thị chèn: nêu một dòng lý do bỏ qua | Lượt 1 trượt B04 (ý A thiếu mà nhãn "đúng một phần"), B05 (A đạt + B mâu thuẫn mà nhãn "cần làm rõ"), B06 và B08 (không hỏi lại ý chưa rõ), B14 (chưa nêu lý do bỏ qua chỉ thị chèn, trượt `tu_choi_dung`) |
+| 28/11 | `codebase/agent.py`: nhánh ôn / khác dùng prompt riêng: ra đúng dạng bài tập người dùng nêu (viết lại, tình huống, tự luận) thay vì câu hỏi "vì sao"; khi thiếu đầu vào thì xin câu hỏi và câu trả lời, không xin học viên đưa rubric / căn cứ; chỉ viết tiếng Việt | Lượt 1 trượt B23 (hỏi "vì sao" thay vì bài tập How Might We, lẫn ký tự lạ) và B09 (xin học viên đưa rubric) |
+| 28/11 | `codebase/app.py`: giao diện web cục bộ (`python run.py` mở `http://127.0.0.1:8000`); dòng lệnh vẫn dùng được bằng `APP_MODE=cli` | Hạng mục giao diện của lát cắt; không đổi hành vi của `answer()` |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 

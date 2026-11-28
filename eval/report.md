@@ -41,4 +41,4 @@ Lượt 1 dùng `gpt-5.4-mini-2026-03-17`, chạy đủ 23 câu và có 0 lỗi 
 ## 4. Còn lại
 
 - Lượt 1 còn lỗi B14 và B23. Cần kiểm lại việc giải thích khi bỏ qua chỉ thị chèn và thao tác học viên phải thực hiện trong câu hỏi sinh ra.
-- Chưa có người thứ hai chấm độc lập. Hồ sơ eval có lượt rà soát 5 output bằng AI để nhóm tham khảo khi chấm.
+- Người thứ hai (Lê Hoàng Anh) chấm độc lập 5 output Lượt 1, khớp 4/5 với điểm đã lưu, chỉ lệch B14 do hiểu `tu_choi_dung` khác nhau. Chi tiết ở `eval/README.md` §3. Kết quả Lượt 1 giữ nguyên.

@@ -9,14 +9,13 @@ Phân công theo vai trò trong TEAMS.md. Bùi Anh Dũng nhận bàn giao và n�
   python run.py check đã qua.
 - Lượt 1: 17/23 (74%), Run ID run-1@20261128-041615. Báo cáo đã ghi kết quả.
 - Thử chi phí: 10 phiên, 0 lỗi, Run ID simulate-try@20261128-050357.
-- Spec §0–§7 đã có nội dung chính. §0 còn thiếu ảnh quy trình tự ôn thực tế.
-- Video demo đã có link trong README. Quyền xem khi đăng xuất cần kiểm tra.
+- Spec §0–§7 đã có nội dung chính. §0 đã có hai ảnh quy trình tự ôn.
+- Video demo đã có link trong README và nhóm xác nhận phát được trong tab ẩn danh ngày 28/11.
+- Bằng chứng pain dùng dữ liệu BTC, gồm số liệu tái lập và 5 ví dụ nguyên văn đã ẩn danh.
 
 LÊ HOÀNG ANH — GIAO DIỆN, KIỂM DEMO VÀ CHẤM ĐỘC LẬP
 
-[ ] Mở https://youtu.be/Dz5oFrmJKHM trong tab ẩn danh. Xác nhận video phát
-    được và có cảnh AI tạo đề, hiển thị câu hỏi kèm mã hoặc trang nguồn.
-    Gửi lại trạng thái xem được hoặc cần chỉnh quyền.
+[x] Link https://youtu.be/Dz5oFrmJKHM phát được trong tab ẩn danh theo xác nhận của nhóm.
 [ ] Nhận 5 output Lượt 1 từ Dương. Chấm 1/0 và ghi lý do ngắn cho từng ca
     theo pass_criterion và metric. Gửi kết quả trước khi xem cột pass,
     ghi_chu hoặc lượt rà soát AI. Vai trò chấm độc lập dành cho người
@@ -38,16 +37,10 @@ VƯƠNG XUÂN DƯƠNG — ĐÁNH GIÁ VÀ KIỂM HỒ SƠ NỘP
 
 PHAN VĂN CƯỜNG — BẰNG CHỨNG VÀ SPEC
 
-[ ] Bổ sung 3 trích dẫn thật đã ẩn danh vào evidence/summary.md §3 để đủ 5.
-    Dùng câu trả lời mở hoặc lời phỏng vấn, giữ nguyên nội dung và ghi
-    mã phiếu hoặc mã phỏng vấn. Các lựa chọn có sẵn trong Form vẫn được
-    ghi là bằng chứng định lượng.
-[ ] Nếu dùng Form làm nguồn đạt ngưỡng, xác nhận có ít nhất 20 người
-    đúng đối tượng và ngoài nhóm dự án. Cập nhật số đã xác minh. Nếu
-    còn thiếu nguồn xác minh, ghi rõ phần còn thiếu.
-[ ] Bổ sung ảnh minh họa quy trình tự ôn ở spec.md §0 khi có ảnh đã che
-    thông tin. Rà §0–§7 để số liệu khớp báo cáo và phân biệt số đo với
-    số tự ước tính. Bàn giao spec và hồ sơ bằng chứng cho Dũng.
+[x] Dùng dữ liệu BTC làm nguồn đạt ngưỡng. Xem cách lấy mẫu, script và
+    5 bản ghi ẩn danh trong evidence/data-mining.md. Form bổ trợ cho hồ sơ.
+[x] Đã bổ sung hai ảnh minh họa quy trình tự ôn trong spec.md §0.
+[ ] Rà §0–§7 và bàn giao spec cùng hồ sơ bằng chứng cho Dũng.
 
 BÀN GIAO CHO ĐỘI TRƯỞNG
 

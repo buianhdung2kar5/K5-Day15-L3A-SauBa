@@ -25,11 +25,11 @@
 |---|---|
 | Dùng để làm gì | **đào bằng chứng pain** (`evidence/data-mining.md`) · tham khảo kiểu sai để viết câu thử. Công cụ của agent **không** đọc file này |
 | Từ đâu | data BTC cấp. File **không có trong repo** (không commit nguyên file data BTC cấp); repo chỉ chứa số đã tổng hợp |
-| Xử lý những bước gì | lọc `nguon = pre_post_post` · đếm theo học viên và theo `kc_code` · dữ liệu BTC đã ẩn danh sẵn, nhóm chỉ dùng mã học viên, không đoán danh tính. **Script đếm chưa có trong repo** → cần thêm (vd `evidence/count.py`) để người khác chạy lại ra cùng số |
-| Số dòng / số đoạn | theo số đếm sơ bộ ở `canvas.md` dòng 4: 1.970 lượt trả lời · 77 học viên · 20,3% sai · 69/77 học viên sai ≥1 câu · trung vị 4 `kc_code` sai mỗi người. *(Chưa kiểm lại bằng script trong repo — xem cột Giới hạn)* |
+| Xử lý những bước gì | Lọc `nguon = pre_post_post` và giữ nhãn đúng/sai. Đếm theo lượt, theo học viên và theo mã kiến thức sai duy nhất của mỗi người. Chạy `python -X utf8 evidence/count_preclass.py` để tái lập. |
+| Số dòng / số đoạn | 1.970 lượt trả lời của 77 học viên. 399/1.970 lượt sai (20,3%). 69/77 học viên sai ít nhất một lượt (89,6%). Trung vị 3 mã kiến thức sai trên toàn mẫu và 4 mã trong nhóm có ít nhất một mã sai. |
 | Phiên bản / ngày lấy | bản BTC cấp ngày __ *(cần điền)* |
 | Nhãn | thật |
-| Giới hạn | data cho biết học viên **sai gì**, không cho biết vì sao hay họ ôn thế nào → phải kiểm bằng phỏng vấn / khảo sát. Chỉ phủ một nhóm học viên của khoá 5, chưa chắc đại diện. Con số ở trên là đếm tay chưa có script nên **chưa phải bằng chứng đạt ngưỡng** cho tới khi có script và ≥5 ví dụ ở `evidence/data-mining.md`. Nếu dùng làm nguồn cho `eval/benchmark.csv`, chỉ đưa vào dạng viết lại hoặc đã tổng hợp |
+| Giới hạn | Dữ liệu cho biết học viên sai ở ý nào, lý do sai và cách ôn cần khảo sát thêm. Mẫu gồm một nhóm học viên khóa 5. Cách đếm và năm ví dụ nằm ở `evidence/data-mining.md`. Benchmark dùng các ca đã chuyển thể. |
 
 ## Dataset 3 · Bộ câu thử (`eval/benchmark.csv`)
 

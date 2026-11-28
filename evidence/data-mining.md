@@ -1,40 +1,32 @@
-# Đào data — cách đếm và kết quả
+# Đào dữ liệu BTC — lượt hậu kiểm của học viên AI20K
 
-> Điền ở guide bước 1.2. Ôn lại: ngày 2, ngày 6 · lab ngày 2, lab ngày 6.
-> Không đào data thì xoá file này. Script / công thức đếm để trong repo (vd `evidence/count.py` hoặc ghi công thức Sheets ngay dưới), người khác chạy lại phải ra cùng số.
-> Repo chỉ chứa số đã tổng hợp và vài dòng ví dụ — không chép lại nguyên file data.
+## 1. Cách đếm
 
-## 1. Cách đếm — viết TRƯỚC khi chạy
-
-- Data dùng: __ (file nào, từ ngày nào đến ngày nào)
-- Đếm gì: __ · trên tập nào: __ · lọc gì: __
-- **Mẫu số là gì:** __ *(lỗi hay gặp nhất là mẫu số sai)*
-- Script / công thức: __
+- Nguồn là `data-btc/preclass/answers.csv` và từ điển cột đi kèm. Gói pre-class bao phủ 05–25/11/2026. Dữ liệu gốc lưu cục bộ và được Git bỏ qua.
+- Câu hỏi phân tích là có bao nhiêu học viên làm sai ít nhất một ý sau buổi học và bao nhiêu lượt làm sai. Bộ lọc `nguon = pre_post_post` đã ghi trong Canvas CP1. Hồ sơ này tái lập số đếm sơ bộ.
+- Chỉ giữ dòng có `was_correct=True` hoặc `False`. Giữ mọi lượt trong số đếm lượt làm, kể cả lần làm lại. Mẫu số người là số `hv` duy nhất trong tập đã lọc. Đếm mã sai theo từng người bằng cách khử trùng `kc_code`.
+- Chạy `python -X utf8 evidence/count_preclass.py` từ thư mục gốc để tái lập số liệu và năm ví dụ.
 
 ## 2. Đọc trước, đếm sau
 
-Đã đọc __ dòng đầu và từ điển cột. Các *kiểu* hành vi thấy được (trước khi định nghĩa thứ cần đếm):
-- __
-- __
+Từ điển cột phân biệt lần trả lời trước và sau buổi học qua `nguon`, các lần thử qua `lan_thu`, và từng ý qua `kc_code`. Một người có thể trả lời nhiều lần, nên dùng hai mẫu số riêng cho lượt làm và học viên. Ô đúng/sai trống biểu thị không áp dụng và bị loại khỏi phép đếm.
 
 ## 3. Kết quả
 
-| Đếm gì | x / N | % | Ghi chú |
-|---|---|---|---|
-| | | | |
-| | | | |
+- **399/1.970 lượt hậu kiểm sai (20,3%)**.
+- **69/77 học viên hậu kiểm sai ít nhất một lượt (89,6%)**.
+- Trung vị là **3 mã kiến thức sai** trên toàn bộ 77 học viên và **4 mã** trong nhóm 69 học viên có mã sai.
 
-Ghi dạng "x/N (y%)". "Nhiều bạn…" không phải số.
+## 4. Năm ví dụ từ BTC
 
-## 4. ≥5 ví dụ cụ thể (mã dòng / mã đã ẩn danh, không đoán ai là ai)
+Các dòng dưới đây giữ nguyên mã bản ghi, mã kiến thức và giá trị `was_correct`. Script chọn năm mã có nhiều lượt sai nhất trong hậu kiểm Ngày 2, rồi chọn bản ghi có mã dòng nhỏ nhất cho mỗi mã kiến thức.
 
-1.
-2.
-3.
-4.
-5.
+1. `A00394` · `complete_ai_problem_statement` · `False` · 8 lượt sai cùng mã.
+2. `A00452` · `select_rule_workflow_agent_level` · `False` · 8 lượt sai cùng mã.
+3. `A00112` · `construct_eval_plan` · `False` · 7 lượt sai cùng mã.
+4. `A00031` · `double_diamond_problem_discovery` · `False` · 4 lượt sai cùng mã.
+5. `A00672` · `evaluate_ai_fit_and_alternatives` · `False` · 4 lượt sai cùng mã.
 
-## 5. Giới hạn của data
+## 5. Giới hạn
 
-Data cho biết người ta **làm gì**, không cho biết **vì sao**. Thiếu gì, lệch về phía nào: __
-→ Kiểm lại bằng phỏng vấn / khảo sát nào: __
+Dữ liệu cho thấy học viên sai ở ý nào và bao nhiêu lượt. Các bản ghi chỉ chứa metadata nên chưa giải thích được vì sao học viên sai, họ có biết mình sai ở đâu hay mất bao lâu để ôn lại. Kết quả áp dụng cho 77 học viên có lượt hậu kiểm với nhãn đúng/sai. [Khảo sát](summary.md) cho biết 17/21 người trả lời chưa xác định rõ chỗ hổng khi ôn. Hai nguồn có mẫu và câu hỏi khác nhau, nên so sánh theo xu hướng và giữ nguyên từng mẫu số.

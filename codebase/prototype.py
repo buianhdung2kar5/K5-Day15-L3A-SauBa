@@ -10,6 +10,8 @@ from tempfile import NamedTemporaryFile
 from time import monotonic, time
 from uuid import uuid4
 
+import guardrails as guards
+import retrieval
 from ai import API_KEY, MODEL_NAME, MODEL_PROVIDER, call_model
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -63,16 +65,14 @@ def read_pdf(encoded):
         sections = pdf_sections(reader)
     except (AttributeError, KeyError, TypeError, ValueError):
         sections = {}
-    passages, skipped = [], []
+    pages, skipped = [], []
     for number, page in enumerate(reader.pages, 1):
-        words = (page.extract_text() or "").split()
-        if not words:
+        text = page.extract_text() or ""
+        if not text.split():
             skipped.append(number)
             continue
-        for offset in range(0, len(words), 250):
-            passages.append({"code": f"P{number:03d}-{offset // 250 + 1:02d}",
-                             "page": number, "sections": sections.get(number, ()),
-                             "text": " ".join(words[offset:offset + 250])})
+        pages.append({"page": number, "text": text, "sections": sections.get(number, ())})
+    passages = retrieval.chunk_pages(pages)
     if not passages:
         raise ValueError("PDF chưa có lớp chữ đọc được. Hãy dùng bản PDF có OCR.")
     return passages, skipped
@@ -351,7 +351,16 @@ def study_plan(results, use_model):
     return steps
 
 
+SUMMARY = re.compile(r"\b(tom\s*tat|tong\s*quan|noi\s*dung\s*chinh|y\s*chinh|summary|summari[sz]e)\b")
+
+
+def source_list(passages):
+    return [{"code": p["code"], "document": p.get("document"), "page": p.get("page"),
+             "excerpt": p["text"][:220] + ("…" if len(p["text"]) > 220 else "")} for p in passages]
+
+
 class PrototypeHandler(BaseHTTPRequestHandler):
+    limiter = guards.RateLimiter()
     documents = {}
     quizzes = {}
     history = {}
@@ -443,9 +452,15 @@ class PrototypeHandler(BaseHTTPRequestHandler):
             passages, skipped = read_pdf(data["pdf"])
             token = uuid4().hex
             name = str(data.get("name") or "Tài liệu PDF")[:240]
-            updated = {**self.documents, token: {"name": name, "passages": passages}}
+            updated = {**self.documents, token: {"name": name, "passages": passages,
+                                                 "chunker": retrieval.CHUNKER}}
             self.save_records(DOCUMENTS, updated)
             type(self).documents = updated
+            if MODEL_READY and retrieval.MODE != "bm25":
+                try:  # tính sẵn vector để câu hỏi đầu tiên không phải chờ; lỗi thì tính lại khi hỏi
+                    retrieval.ensure_vectors(token, passages)
+                except Exception:
+                    pass
             return {"document": token, "passages": len(passages), "skipped": skipped,
                     "pages": len({p["page"] for p in passages}), "preview": passages[0]}
         if self.path == "/api/sample":
@@ -477,32 +492,119 @@ class PrototypeHandler(BaseHTTPRequestHandler):
         if self.path == "/api/generate":
             if not MODEL_READY:
                 raise ValueError("Cần cấu hình model thật trong .env rồi khởi động lại.")
-            tokens = data.get("documents")
-            if not isinstance(tokens, list) or not tokens or any(
-                    not isinstance(token, str) or token not in self.documents for token in tokens):
-                raise ValueError("Hãy chọn tài liệu đã tải lên.")
-            passages = []
-            unique_tokens = list(dict.fromkeys(tokens))
-            for index, token in enumerate(unique_tokens, 1):
-                document = self.documents[token]
-                for item in document["passages"]:
-                    code = f"D{index}-{item['code']}" if len(unique_tokens) > 1 else item["code"]
-                    passages.append({**item, "code": code, "document": document["name"]})
             request = data.get("request", "")
             if not isinstance(request, str) or not 1 <= len(request.strip()) <= 500:
                 raise ValueError("Nhập yêu cầu tạo đề, tối đa 500 ký tự.")
-            request = request.strip()
-            mix = question_mix(request)
-            questions = generate(passages, mix, request)
-            if not questions:
-                raise ValueError("Chưa có câu hỏi vượt qua kiểm nguồn. Hãy thử PDF có văn bản rõ hơn.")
-            token = uuid4().hex
-            updated = {**self.history, token: {"quiz": token, "title": request, "questions": questions}}
-            self.save_records(HISTORY, updated)
-            type(self).history = updated
-            return {**self.visible_quiz(token, questions, request), "requested": sum(mix.values()),
-                    "requested_mix": mix}
+            return self.create_quiz(self.attached_passages(data.get("documents")), request.strip())
+        if self.path == "/api/chat":
+            return self.chat(data)
         raise ValueError("Không tìm thấy thao tác.")
+
+    def attached_passages(self, tokens):
+        if not isinstance(tokens, list) or not tokens or any(
+                not isinstance(token, str) or token not in self.documents for token in tokens):
+            raise ValueError("Hãy chọn tài liệu đã tải lên.")
+        passages = []
+        unique_tokens = list(dict.fromkeys(tokens))
+        for index, token in enumerate(unique_tokens, 1):
+            document = self.rechunked(token)
+            for item in document["passages"]:
+                code = f"D{index}-{item['code']}" if len(unique_tokens) > 1 else item["code"]
+                passages.append({**item, "code": code, "document": document["name"],
+                                 "doc": token, "local_code": item["code"]})
+        return passages
+
+    def rechunked(self, token):
+        """Tài liệu tải lên trước khi có chia chunk hybrid được chia lại một lần rồi lưu."""
+        document = self.documents[token]
+        if document.get("chunker") == retrieval.CHUNKER:
+            return document
+        passages = retrieval.chunk_pages(retrieval.pages_from_passages(document["passages"]))
+        document = {**document, "passages": passages, "chunker": retrieval.CHUNKER}
+        updated = {**self.documents, token: document}
+        self.save_records(DOCUMENTS, updated)
+        type(self).documents = updated
+        return document
+
+    def create_quiz(self, passages, request):
+        mix = question_mix(request)
+        questions = generate(passages, mix, request)
+        if not questions:
+            raise ValueError("Chưa có câu hỏi vượt qua kiểm nguồn. Hãy thử PDF có văn bản rõ hơn.")
+        token = uuid4().hex
+        updated = {**self.history, token: {"quiz": token, "title": request, "questions": questions}}
+        self.save_records(HISTORY, updated)
+        type(self).history = updated
+        return {**self.visible_quiz(token, questions, request), "requested": sum(mix.values()),
+                "requested_mix": mix}
+
+    def chat(self, data):
+        """Một lượt chat: chạy các tầng trong guardrails.py, rồi trả lời hoặc tạo đề."""
+        message = data.get("message")
+        message = message.strip() if isinstance(message, str) else ""
+        trace = guards.GuardTrace()
+
+        def stop(verdict, **extra):
+            trace.blocked(verdict)
+            guards.audit({"stage": verdict.layer, "category": verdict.category, "detail": verdict.detail,
+                          "message": message[:200]})
+            return {"type": "blocked", "text": verdict.message.format(wait=verdict.detail.rsplit(" ", 1)[-1].rstrip("s")),
+                    "layer": verdict.layer, "category": verdict.category, "guard": trace.steps, **extra}
+
+        verdict = guards.check_limits(message, self.client_address[0], self.limiter)
+        if not verdict.allowed:
+            return stop(verdict)
+        trace.passed("L0", f"{len(message)}/{guards.MAX_MESSAGE} ký tự")
+        verdict = guards.scan_text(message)
+        if not verdict.allowed:
+            return stop(verdict)
+        trace.passed("L1", "không thấy mẫu tấn công ở 6+ dạng giải mã")
+        if not MODEL_READY:
+            raise ValueError("Cần cấu hình model thật trong .env rồi khởi động lại.")
+        passages = self.attached_passages(data.get("documents"))
+        names = list(dict.fromkeys(p["document"] for p in passages))
+        verdict, intent = guards.self_check_input(message, names)
+        if not verdict.allowed:
+            return stop(verdict)
+        trace.passed("L2", "ý định: " + ("tạo đề" if intent == "generate" else "hỏi đáp"))
+
+        clean, dropped = guards.sanitize_passages(passages)
+        note = f"loại {len(dropped)} đoạn PDF chứa chỉ thị lạ" if dropped else "mọi đoạn PDF sạch"
+        if intent == "generate":
+            trace.passed("L3", note)
+            quiz = self.create_quiz(clean, message)
+            guards.audit({"stage": "done", "intent": "generate", "dropped": dropped, "message": message[:200]})
+            return {"type": "quiz", "quiz": quiz, "guard": trace.steps}
+
+        found, info = retrieval.search(message, clean)
+        how = f"{info['mode']}: BM25 {info['bm25']} đoạn, embedding {info['dense']} đoạn"
+        if info["note"]:
+            how += f" ({info['note']})"
+        if not found and SUMMARY.search(guards.fold(message)):
+            found = clean[:retrieval.TOP_K]
+        if not found:
+            return stop(guards.Verdict(False, "L3", "no_evidence", "không đoạn nào qua ngưỡng · " + how))
+        trace.passed("L3", f"{len(found)} đoạn sau RRF · {how} · {note}")
+        reply = guards.answer_question(message, found)
+        codes = {p["code"] for p in found}
+        if reply.get("found") is not True or not isinstance(reply.get("answer"), str):
+            return stop(guards.Verdict(False, "L3", "no_evidence", "model báo tài liệu không đủ"),
+                        sources=source_list(found[:3]))
+        verdict, answer = guards.scan_output(reply["answer"], codes)
+        if not verdict.allowed:
+            return stop(verdict)
+        cited = [p for p in found if f"[{p['code']}]" in answer
+                 or p["code"] in (reply.get("citations") if isinstance(reply.get("citations"), list) else [])]
+        if not cited:
+            return stop(guards.Verdict(False, "L4", "ungrounded", "câu trả lời không dẫn mã đoạn hợp lệ"),
+                        sources=source_list(found[:3]))
+        trace.passed("L4", f"{len(cited)} mã đoạn hợp lệ, không rò rỉ")
+        verdict = guards.self_check_output(message, answer, cited)
+        if not verdict.allowed:
+            return stop(verdict, sources=source_list(cited))
+        trace.passed("L5", "bám nguồn và an toàn")
+        guards.audit({"stage": "done", "intent": "ask", "cited": [p["code"] for p in cited], "message": message[:200]})
+        return {"type": "answer", "text": answer, "sources": source_list(cited), "guard": trace.steps}
 
     def submit_attempt(self, data):
         token, answers = data.get("attempt"), data.get("answers")

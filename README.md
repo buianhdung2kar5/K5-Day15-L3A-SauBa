@@ -114,14 +114,12 @@ Chạy `python -m pip install -r requirements.txt` và `python codebase/prototyp
 
 | Thành phần | Thật / Giả | Ghi chú |
 |---|---|---|
-| Lời gọi AI ở quyết định trung tâm | **Thật** (bắt buộc từ CP3) | Model: ____ |
+| Lời gọi AI ở quyết định trung tâm | **Thật** | Model đo ở Lượt 2: `gpt-5.4-mini-2026-03-17` |
 |  |  |  |
 
 ## Dùng AI vào việc gì
 
-2–3 dòng (bắt buộc): nhóm dùng công cụ AI nào để làm gì, người kiểm lại phần nào. Chi tiết: [docs/ai-usage.md](docs/ai-usage.md). Coding agent đọc [AGENTS.md](AGENTS.md).
-
-____
+Codex hỗ trợ viết bộ chấm theo rubric, đối chiếu output Lượt 2 với tiêu chí và soạn slide CP4. Báo cáo ghi rõ cách chấm, Run ID và số chi phí từ runner để nhóm kiểm lại trước khi nộp. [Chi tiết sử dụng AI](docs/ai-usage.md)
 
 ## File mẫu — điền ở bước nào
 

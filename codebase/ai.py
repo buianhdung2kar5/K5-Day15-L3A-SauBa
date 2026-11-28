@@ -79,3 +79,30 @@ def call_model(system: str, user: str) -> dict:
     raise NotImplementedError(
         "chưa viết phần gọi model thật cho MODEL_PROVIDER=%s trong codebase/ai.py — xem docs/connect-model.md"
         % MODEL_PROVIDER)
+
+
+EMBED_MODEL = (os.environ.get("EMBED_MODEL") or "text-embedding-3-small").strip()
+
+
+def embed_texts(texts: list) -> dict:
+    """Embedding cho retrieval của prototype (codebase/retrieval.py). Không dùng trong agent.answer / eval.
+
+    Trả {"vectors": [[float, ...], ...] đúng thứ tự texts, "model": str, "tokens": int (từ usage của API)}.
+    Chỉ hỗ trợ MODEL_PROVIDER=openai; provider khác ném NotImplementedError để retrieval lùi về BM25.
+    """
+    if MODEL_PROVIDER != "openai" or not API_KEY:
+        raise NotImplementedError("Embedding chỉ hỗ trợ MODEL_PROVIDER=openai có API_KEY.")
+    request = Request(
+        "https://api.openai.com/v1/embeddings",
+        data=json.dumps({"model": EMBED_MODEL, "input": texts}).encode("utf-8"),
+        headers={"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urlopen(request, timeout=75) as response:
+            data = json.load(response)
+    except HTTPError as error:
+        raise RuntimeError(f"OpenAI embeddings trả lỗi HTTP {error.code}.") from None
+    rows = sorted(data["data"], key=lambda row: row["index"])
+    return {"vectors": [row["embedding"] for row in rows], "model": data.get("model", EMBED_MODEL),
+            "tokens": data.get("usage", {}).get("total_tokens", 0)}

@@ -130,6 +130,53 @@ article{padding:18px 0;border-top:1px solid var(--line)}article:first-child{bord
 .options label:has(:checked){background:#e4f0e6;border-color:var(--green)}
 .code-input,.code-example{font-family:Consolas,monospace;tab-size:4;min-height:145px}
 .code-example{background:#edf4ed;padding:12px;white-space:pre-wrap;overflow-wrap:anywhere;min-height:0}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.chat-page{max-width:900px}
+.chat-shell{display:flex;flex-direction:column;height:calc(100vh - 150px);min-height:520px;background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 32px #172b2010;overflow:hidden}
+.chat-head{display:flex;gap:12px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);background:#fafcf9}
+.chat-head>div{flex:1;min-width:0}.chat-head p{color:var(--muted);font-size:.9rem}
+.pane .chat-title{font-size:1.15rem;letter-spacing:-.02em;margin:0;line-height:1.3}
+.avatar{display:grid;place-items:center;flex-shrink:0;width:34px;height:34px;border-radius:50%;font-size:.72rem;font-weight:800}
+.bot-avatar{background:#102e24;color:#b9edc6}.user-avatar{background:#e4eee6;color:#1b5e44}
+.ghost{background:transparent;color:var(--green);border:1px solid var(--line);border-radius:9px;padding:7px 12px;font-weight:650;text-decoration:none;font-size:.9rem;cursor:pointer}
+.ghost:hover{background:#eef5ef}
+.chat-log{flex:1;overflow-y:auto;padding:20px 18px;display:flex;flex-direction:column;gap:16px;background:#f7faf6}
+.msg{display:flex;gap:10px;align-items:flex-end;max-width:86%}
+.msg.user{flex-direction:row-reverse;align-self:flex-end}
+.bubble{background:var(--paper);border:1px solid var(--line);border-radius:16px 16px 16px 4px;padding:11px 14px;min-width:0;overflow-wrap:anywhere}
+.bubble>*+*{margin-top:8px}
+.msg.user .bubble{background:var(--green);color:#fff;border-color:var(--green);border-radius:16px 16px 4px 16px;white-space:pre-wrap}
+.msg.user .attachment{background:#ffffff26;color:#fff}
+.msg.error .bubble{border-color:#e5b9b2;background:#fdf3f1;color:#7c2d23}
+.msg.blocked .bubble{border-color:#ead7a8;background:#fdf9ee}
+.guard{font-size:.82rem;color:var(--muted)}.guard summary{cursor:pointer;font-weight:650;color:#2c6b4c}
+.guard-block summary{color:#94621a}.guard ul{list-style:none;padding:0;margin:6px 0 0}.guard li+li{margin-top:2px}
+.sources{font-size:.88rem}.sources summary{cursor:pointer;font-weight:650;color:var(--green)}
+.source-item{margin-top:8px;padding:8px 10px;border-left:3px solid #8eb49e;background:#f4f9f3;border-radius:0 8px 8px 0}
+.source-item p{color:var(--muted);margin-top:2px}
+.bubble .hint{color:var(--muted);font-size:.9rem}
+.suggestions{display:flex;flex-wrap:wrap;gap:7px}
+.chip{background:#eef5ef;color:var(--green);border:1px solid #d3e5d7;border-radius:99px;padding:6px 12px;font-size:.88rem;font-weight:600}
+.chip:hover{background:#e0eee3}
+.task-steps{list-style:none;padding:0;margin:0;display:grid;gap:4px;font-size:.92rem;color:var(--muted)}
+.task-steps li::before{content:"○";display:inline-block;width:1.4em;color:#8eb49e}
+.task-steps.done li::before{content:"✓";color:var(--green);font-weight:800}
+.typing{display:inline-flex;gap:4px;align-items:center}
+.typing i{width:7px;height:7px;border-radius:50%;background:#8eb49e;animation:blink 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.quiz-result{border:1px solid var(--line);border-radius:12px;padding:12px;background:#f4f9f3}
+.quiz-result ol{margin:6px 0 10px;padding-left:22px;font-size:.92rem}.quiz-result li+li{margin-top:4px}
+.quiz-result .tag{margin:0 0 0 6px;font-size:.75rem;padding:1px 8px}
+.chat-composer{border-top:1px solid var(--line);padding:10px 14px 12px;background:var(--paper)}
+.chat-composer textarea{border:1px solid #b8cdc0;border-radius:12px;min-height:46px;max-height:180px;resize:none;margin:6px 0 8px;padding:11px 13px;background:#fbfdfb}
+.chat-composer textarea:focus-visible{outline:0;border-color:var(--green);box-shadow:0 0 0 3px #dceee0}
+.composer-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.composer-bar .help{flex:1 1 180px;margin:0;font-size:.82rem}
+.attach-picker{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:9px;padding:0 0 0 9px;color:var(--green);background:#fff}
+.attach-picker select{font:inherit;font-size:.88rem;border:0;background:transparent;color:inherit;padding:7px 6px;max-width:190px;cursor:pointer}
+.send{border-radius:10px;padding:9px 16px}
+@media(max-width:740px){.chat-shell{height:calc(100vh - 190px)}.msg{max-width:96%}.chat-head p{display:none}}
 @media(max-width:740px){.hero,.cards{grid-template-columns:1fr}.preview-card{transform:none}.bar{padding-block:12px}.bar,main{padding-inline:16px}nav{order:3;width:100%}nav a{padding-inline:8px}.panel,.card{padding:16px}}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -201,38 +248,48 @@ article{padding:18px 0;border-top:1px solid var(--line)}article:first-child{bord
     </section>
     </div>
   </section>
-  <section class="pane workspace" data-page="create" hidden>
-    <div class="workspace-heading"><h1>Tạo đề</h1><p>Chọn tài liệu và cho SauBa biết bạn muốn ôn gì.</p></div>
-    <form class="panel" id="createForm">
-      <div class="workspace-grid">
-      <aside>
-      <h2 class="panel-heading">Nguồn ôn tập</h2>
-      <label for="documentPicker">Tài liệu đã tải lên</label>
-      <div class="document-picker">
-        <select id="documentPicker"><option value="">Chọn tài liệu để đính kèm</option></select>
-        <a class="button secondary" href="#upload">＋ Tải thêm PDF</a>
+  <section class="pane chat-page" data-page="create" hidden>
+    <div class="chat-shell">
+      <div class="chat-head">
+        <span class="avatar bot-avatar" aria-hidden="true">SB</span>
+        <div>
+          <h1 class="chat-title">Hỏi đáp và tạo đề với SauBa</h1>
+          <p>Đính kèm PDF buổi học rồi hỏi hoặc giao việc. Mỗi lượt đi qua 6 tầng kiểm tra an toàn.</p>
+        </div>
+        <button type="button" class="ghost" id="newChat" title="Xoá cuộc trò chuyện trên màn hình">Phiên mới</button>
       </div>
-      <p id="documentHint" class="library-empty" aria-live="polite"></p>
-      </aside>
-      <div>
-      <h2 class="panel-heading">Yêu cầu tạo đề</h2>
-      <label for="request">Bạn muốn ôn gì?</label>
-      <div class="composer">
+      <div id="chatLog" class="chat-log" role="log" aria-live="polite" aria-label="Cuộc trò chuyện tạo đề">
+        <div class="msg bot" id="chatWelcome">
+          <span class="avatar bot-avatar" aria-hidden="true">SB</span>
+          <div class="bubble">
+            <p>Chào bạn, mình là SauBa. Bạn có thể <strong>hỏi về nội dung tài liệu</strong> đã đính kèm, hoặc <strong>giao việc tạo đề</strong>, ví dụ “Tạo 3 câu trắc nghiệm và 1 câu code về overfitting”.</p>
+            <p class="hint">Mình chỉ trả lời dựa trên PDF bạn tải lên, mỗi ý đều kèm mã đoạn nguồn. Câu hỏi ngoài tài liệu, yêu cầu làm hộ bài thi thật hay cố đổi quy tắc sẽ bị từ chối.</p>
+            <p id="documentHint" class="hint" aria-live="polite"></p>
+            <div class="suggestions">
+              <button type="button" class="chip suggestion">Tóm tắt các ý chính của tài liệu</button>
+              <button type="button" class="chip suggestion">Tạo 6 câu ôn cả tài liệu</button>
+              <button type="button" class="chip suggestion">Tạo 4 câu về các khái niệm chính</button>
+              <button type="button" class="chip suggestion">Tạo 3 câu trắc nghiệm, 1 câu code và 1 câu tự luận</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form id="createForm" class="chat-composer">
         <div id="attachments" class="attachments" aria-label="Tài liệu đính kèm"></div>
-        <textarea id="request" maxlength="500" required placeholder="Ví dụ: Tạo 3 câu trắc nghiệm, 1 câu code và 1 câu tự luận."></textarea>
-      </div>
-      <div class="actions">
-        <button type="button" class="secondary suggestion">Tạo 6 câu ôn cả tài liệu</button>
-        <button type="button" class="secondary suggestion">Tạo 4 câu về các khái niệm chính</button>
-      </div>
-      <div class="create-footer">
-      <p id="help" class="help">Mặc định 6 câu, chia gần nhất theo tỷ lệ 60% trắc nghiệm, 20% code, 20% text.</p>
-      <button id="generate" disabled>Sinh đề từ PDF</button>
-      </div>
-      <p id="createStatus" class="status help" aria-live="polite"></p>
-      </div>
-      </div>
-    </form>
+        <label for="request" class="visually-hidden">Giao việc cho SauBa</label>
+        <textarea id="request" rows="1" maxlength="500" placeholder="Hỏi về tài liệu hoặc giao việc tạo đề… (Enter để gửi, Shift+Enter xuống dòng)"></textarea>
+        <div class="composer-bar">
+          <label class="attach-picker" title="Đính kèm tài liệu đã tải lên">
+            <span aria-hidden="true">📎</span><span class="visually-hidden">Đính kèm tài liệu</span>
+            <select id="documentPicker"><option value="">Đính kèm tài liệu</option></select>
+          </label>
+          <a class="ghost" href="#upload">＋ Tải PDF</a>
+          <p id="help" class="help">Mặc định 6 câu: 60% trắc nghiệm, 20% code, 20% text.</p>
+          <button id="generate" class="send" aria-label="Gửi yêu cầu">Gửi <span aria-hidden="true">➤</span></button>
+        </div>
+      </form>
+      <p id="createStatus" class="status help visually-hidden" aria-live="polite"></p>
+    </div>
   </section>
   <section class="pane" data-page="history" hidden>
     <h1>Đề đã tạo</h1>
@@ -289,13 +346,13 @@ async function api(path, body) {
   return data;
 }
 function controls() {
-  generate.disabled = busy || !ready || !selectedDocuments.size;
+  generate.disabled = busy;
   sample.disabled = file.disabled = busy;
   documentPicker.disabled = busy;
   dropzone.setAttribute("aria-busy", String(file.disabled));
 }
 function renderDocuments() {
-  const placeholder = element("option", documents.length ? "Chọn tài liệu để đính kèm" : "Chưa có tài liệu");
+  const placeholder = element("option", documents.length ? "Đính kèm tài liệu" : "Chưa có tài liệu");
   placeholder.value = "";
   documentPicker.replaceChildren(placeholder, ...documents.map(doc => {
     const option = element("option", doc.name);
@@ -317,8 +374,8 @@ function renderDocuments() {
     return chip;
   }));
   get("documentHint").textContent = selectedDocuments.size
-    ? "Đã đính kèm " + selectedDocuments.size + " tài liệu."
-    : documents.length ? "Chọn ít nhất một PDF để tạo đề." : "Thư viện đang trống. Hãy tải PDF đầu tiên.";
+    ? "Đã đính kèm " + selectedDocuments.size + " tài liệu. Bạn có thể giao việc ngay."
+    : documents.length ? "Bấm 📎 ở khung chat để đính kèm ít nhất một PDF." : "Thư viện đang trống. Bấm “＋ Tải PDF” để tải tài liệu đầu tiên.";
   const library = get("documentLibrary");
   library.replaceChildren(...documents.map(doc => {
     const row = element("div", "", "library-row");
@@ -385,7 +442,7 @@ function showPage() {
     else enter(section);
   }
   if (page === "history") loadHistory();
-  if (page === "create") loadDocuments().catch(error => get("createStatus").textContent = error.message);
+  if (page === "create") loadDocuments().catch(error => get("documentHint").textContent = error.message);
   if (page === "upload") loadDocuments().catch(error => get("documentLibrary").textContent = error.message);
   if (page === "attempts") loadAttempts();
   if (page === "review" || page === "submitted") loadAttempt(page, id);
@@ -702,18 +759,166 @@ async function loadAttempt(page, id) {
     if (location.hash === route) panel.textContent = error.message;
   }
 }
-get("createForm").onsubmit = event => {
-  event.preventDefault();
-  if (!get("request").value.trim()) {
-    get("createStatus").textContent = "Hãy nhập yêu cầu tạo đề.";
+const chatLog = get("chatLog"), request = get("request");
+const KIND_NAMES = {choice: "trắc nghiệm", code: "code", text: "text"};
+function scrollChat() {
+  chatLog.scrollTo({top: chatLog.scrollHeight, behavior: reducedMotion.matches ? "auto" : "smooth"});
+}
+function chatMessage(role, ...nodes) {
+  const row = element("div", "", "msg " + role);
+  const avatar = element("span", role === "user" ? "Bạn" : "SB", "avatar " + (role === "user" ? "user-avatar" : "bot-avatar"));
+  avatar.setAttribute("aria-hidden", "true");
+  const bubble = element("div", "", "bubble");
+  bubble.append(...nodes);
+  row.append(avatar, bubble);
+  chatLog.append(row);
+  enter(row, 0, 6);
+  scrollChat();
+  return bubble;
+}
+function botReply(text, ...extra) {
+  return chatMessage("bot", element("p", text), ...extra);
+}
+function resizeRequest() {
+  request.style.height = "auto";
+  request.style.height = Math.min(request.scrollHeight + 2, 180) + "px";
+}
+function mixText(mix) {
+  return Object.entries(mix || {}).filter(([, count]) => count)
+    .map(([kind, count]) => count + " " + (KIND_NAMES[kind] || kind)).join(", ");
+}
+function quizResult(data) {
+  const box = element("div", "", "quiz-result");
+  box.append(element("strong", data.title));
+  const list = element("ol");
+  data.questions.forEach(question => {
+    const item = element("li", question.question);
+    item.append(element("span", (KIND_NAMES[question.kind] || question.kind) + " · " + question.code, "tag"));
+    list.append(item);
+  });
+  const actions = element("div", "", "actions");
+  const start = element("button", "Làm bài ngay");
+  start.type = "button";
+  start.onclick = async () => {
+    start.disabled = true;
+    try { await displayQuiz(data); }
+    catch (error) { botReply(error.message).parentElement.classList.add("error"); }
+    finally { start.disabled = false; }
+  };
+  actions.append(start, linkTo("Xem đề đã tạo", "history", "ghost"));
+  box.append(list, actions);
+  return box;
+}
+function sourceList(sources, cited) {
+  const box = element("details", "", "sources");
+  if (!cited) box.open = true;
+  box.append(element("summary", (cited ? "Đoạn nguồn đã dẫn" : "Các đoạn có thể liên quan") + " (" + sources.length + ")"));
+  sources.forEach(source => {
+    const item = element("div", "", "source-item");
+    const where = [source.code, source.document, source.page ? "trang " + source.page : ""].filter(Boolean).join(" · ");
+    item.append(element("strong", where), element("p", source.excerpt));
+    box.append(item);
+  });
+  return box;
+}
+function guardBadge(reply) {
+  const steps = reply.guard || [];
+  const blocked = steps.find(step => step.status === "block");
+  const box = element("details", "", "guard" + (blocked ? " guard-block" : ""));
+  box.append(element("summary", blocked
+    ? "🛡 Dừng ở " + blocked.layer + " · " + blocked.name
+    : "🛡 Qua " + steps.length + " tầng kiểm tra"));
+  const list = element("ul");
+  steps.forEach(step => list.append(element("li",
+    (step.status === "pass" ? "✓ " : "✕ ") + step.layer + " " + step.name + (step.note ? " — " + step.note : ""))));
+  box.append(list);
+  return box;
+}
+async function assignTask(text) {
+  const names = [...selectedDocuments.values()];
+  const userNodes = [element("p", text)];
+  if (names.length) {
+    const chips = element("div", "", "attachments");
+    chips.append(...names.map(name => {
+      const chip = element("span", "", "attachment");
+      chip.append(element("span", "📄 " + name));
+      return chip;
+    }));
+    userNodes.push(chips);
+  }
+  chatMessage("user", ...userNodes);
+  if (!names.length) {
+    const link = linkTo("＋ Tải PDF", "upload", "ghost");
+    botReply("Mình cần ít nhất một tài liệu để ra đề bám nội dung. Bấm 📎 để đính kèm PDF đã tải, hoặc tải PDF mới.", link)
+      .parentElement.classList.add("error");
     return;
   }
-  loadQuiz("generate");
+  if (!ready) {
+    const trySample = element("button", "Làm thử đề mẫu", "chip");
+    trySample.type = "button";
+    trySample.onclick = () => loadQuiz("sample");
+    botReply("Model chưa được cấu hình nên mình chưa sinh đề từ PDF được. Thêm khoá vào .env rồi khởi động lại máy chủ. Trong lúc chờ, bạn có thể làm thử đề mẫu.", trySample)
+      .parentElement.classList.add("error");
+    return;
+  }
+  const typing = element("span", "", "typing");
+  typing.append(element("i"), element("i"), element("i"));
+  const waiting = element("p", "Đang kiểm tra yêu cầu qua các tầng an toàn…", "hint");
+  const bubble = chatMessage("bot", waiting, typing);
+  busy = true; controls();
+  try {
+    const reply = await api("chat", {documents: [...selectedDocuments.keys()], message: text});
+    typing.remove(); waiting.remove();
+    if (reply.type === "quiz") {
+      const data = reply.quiz;
+      const note = data.requested && data.questions.length < data.requested
+        ? " " + (data.requested - data.questions.length) + " câu bị loại vì trích dẫn không khớp tài liệu." : "";
+      bubble.append(
+        element("p", "Xong. Bạn giao " + data.requested + " câu (" + mixText(data.requested_mix) + "), "
+          + data.questions.length + " câu qua kiểm nguồn." + note),
+        quizResult(data));
+    } else {
+      bubble.append(element("p", reply.text, reply.type === "answer" ? "answer-text" : ""));
+      if (reply.sources && reply.sources.length) bubble.append(sourceList(reply.sources, reply.type === "answer"));
+      if (reply.type === "blocked") bubble.parentElement.classList.add("blocked");
+    }
+    bubble.append(guardBadge(reply));
+  } catch (error) {
+    typing.remove();
+    bubble.append(element("p", "Chưa xong được việc này: " + error.message));
+    bubble.parentElement.classList.add("error");
+  } finally {
+    busy = false; controls();
+    scrollChat();
+    request.focus({preventScroll: true});
+  }
+}
+get("createForm").onsubmit = event => {
+  event.preventDefault();
+  const text = request.value.trim();
+  if (busy) return;
+  if (!text) { request.focus(); return; }
+  request.value = "";
+  resizeRequest();
+  assignTask(text);
 };
-document.querySelectorAll(".suggestion").forEach(button => button.onclick = () => {
-  get("request").value = button.textContent;
-  get("request").focus();
+request.addEventListener("input", resizeRequest);
+request.addEventListener("keydown", event => {
+  if (event.key === "Enter" && !event.shiftKey && !event.isComposing) {
+    event.preventDefault();
+    get("createForm").requestSubmit();
+  }
 });
+document.querySelectorAll(".suggestion").forEach(button => button.onclick = () => {
+  request.value = button.textContent;
+  resizeRequest();
+  request.focus();
+});
+get("newChat").onclick = () => {
+  if (busy) return;
+  chatLog.replaceChildren(get("chatWelcome"));
+  request.focus();
+};
 sample.onclick = () => loadQuiz("sample");
 </script>
 </html>

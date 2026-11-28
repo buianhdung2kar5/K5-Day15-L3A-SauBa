@@ -134,22 +134,22 @@ Dữ liệu BTC: metadata hậu kiểm trong `data-btc/preclass/answers.csv`. Be
 ## §7. Đánh giá & chuẩn "đạt" *(guide 2.4, 4.1)*
 - Data card: `data/DATA_CARD.md` · bộ câu thử: `eval/benchmark.csv` — 23 câu (thuong 7 · kho 12 · tu_choi 4), gồm 8 ca chuyển thể từ metadata BTC · metric: `eval/metric_spec.yaml` (5 metric)
 - **Chuẩn "đạt"** (chốt **trước 19:30 Thứ Sáu 27/11**, giữ nguyên đến 23:59 Thứ Bảy 28/11): "Đạt khi ở một lượt chạy bằng model thật: ≥ 80% câu qua (pass = 1 khi đạt mọi metric áp dụng trong `eval/metric_spec.yaml`), 100% câu tu_choi qua, và mỗi metric đạt ngưỡng ghi trong `eval/metric_spec.yaml`"
-- Kết quả: Lượt 1 đạt 17/23 (74%), chưa đạt chuẩn. Run ID `run-1@20261128-041615`. Lượt 2 chưa chạy. Chi tiết ở `eval/report.md` và `eval/README.md`.
+- Lượt 1 đạt 17/23 (74%), Run ID `run-1@20261128-041615`. Lượt 2 đạt 19/23 (83%), Run ID `run-2@20261128-142503`. Lượt 2 còn 3/4 ca từ chối đạt nên chưa đạt chuẩn. Chi tiết ở `eval/report.md` và `eval/README.md`.
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
-- Thử CP3: 10 phiên, 0 lỗi, Run ID `simulate-try@20261128-050357`. Xem `cost/personas.yaml` và `cost/cost-estimate.md`. CP4 dùng lượt mô phỏng đủ số phiên.
-- Chi phí / task thành công: __ (model __) · __ (model __)
-- Chi phí / tháng ở quy mô thật: thấp __ · cơ sở __ · cao __ → chi tiết `cost/cost-estimate.md`
-- So với impact / người / tháng (§2): đáng làm không, vì sao:
+- CP4: `simulate-1@20261128-142736`, 50 phiên gọi AI, seed 42, 0 phiên lỗi. Tỷ lệ qua làm mẫu số là 19/23 từ Lượt 2. Token đo trên `gpt-5.4-mini-2026-03-17`.
+- Chi phí trên mỗi task thành công là **$0.0038** theo giá GPT-5.4 mini và **$0.0125** theo giá đối chiếu GPT-5.4.
+- Theo giá GPT-5.4 mini, chi phí tháng ở ba kịch bản 200, 436 và 721 người lần lượt là $7.02, $15.31 và $25.32. Chi tiết ở `cost/cost-estimate.md`.
+- Kịch bản cơ sở có chi phí model $0.0351/người/tháng. Tiếp tục thử ở quy mô nhỏ để đo số phút tiết kiệm theo giả định ở §2.
 
 ## §9. Rủi ro & an toàn
-- Dữ liệu: đã ẩn danh gì, không thu gì, không đưa gì vào model gói miễn phí:
-- AI **không được** làm gì kể cả khi người dùng yêu cầu:
-- Ai có thể bị hại nếu AI sai, và nhóm chặn thế nào:
+- Khảo sát minh họa bằng mã phiếu. Tập eval dùng nội dung đã chuyển thể từ mã kiến thức hoặc dữ liệu mẫu. Dữ liệu BTC gốc và API key lưu ngoài Git. Demo dùng PDF mẫu, tránh PDF có thông tin nhận dạng hoặc nội dung mật vì phần trích đưa vào model.
+- AI từ chối làm hộ bài kiểm tra thật hoặc tiết lộ hướng dẫn hệ thống. Khi thiếu đoạn nguồn phù hợp, hệ thống báo thiếu căn cứ. Câu trả lời của học viên được xử lý như dữ liệu chấm.
+- Chấm nhầm có thể khiến học viên bỏ qua lỗ hổng hoặc ôn lệch. Bộ chấm đối chiếu từng ý, dẫn đoạn nguồn và hỏi lại khi có thể đổi nhãn. Lượt 2 vẫn có ca nhầm ở ranh giới mơ hồ, nên kết quả dùng để tự ôn.
 
 ## §10. Phân công & changelog
-- Phân công có tên (theo chặng, chia cặp — guide "Cách chia việc"): __
-- Dùng AI vào việc gì (2–3 dòng; chi tiết `docs/ai-usage.md`):
+- Phân công theo vai trò trong `TEAMS.md`: Dũng và Hoàng Anh phụ trách luồng AI, giao diện và demo. Dương và Cường phụ trách đánh giá, chi phí, hồ sơ bằng chứng và slide.
+- Trợ lý AI hỗ trợ viết cải tiến chấm, đối chiếu Lượt 2 và soạn hồ sơ nộp. Điểm và chi phí được tổng hợp từ file kết quả chạy. Chi tiết ở `docs/ai-usage.md`.
 - Nhật ký thay đổi — **mọi thay đổi sau CP2 19:30 Thứ Sáu 27/11 phải có dòng ở đây**:
 
 **CP2 → CP4** (vd thu hẹp lát cắt, hỏi thêm người dùng, lần cải tiến trước lượt 2)
@@ -158,9 +158,13 @@ Dữ liệu BTC: metadata hậu kiểm trong `data-btc/preclass/answers.csv`. Be
 |---|---|---|
 | 28/11 | Điền spec §0–§7 và thiết lập kịch bản thử chi phí | Đối chiếu với khảo sát, hậu kiểm BTC và lỗi Lượt 1. Tần suất và thời gian chưa đo được ghi rõ là tự ước tính. |
 | 28/11 | Bổ sung 2 ảnh quy trình tự ôn vào §0 (`evidence/images/`), cập nhật §3 và trạng thái xác minh khảo sát trong `evidence/summary.md` | Hoàn thiện hồ sơ bằng chứng CP3; ghi rõ giới hạn form ẩn danh không thu email nên chưa xác minh được số phiếu ngoài nhóm. |
+| 28/11 | Chốt nhãn rubric bằng Python và chạy Lượt 2 | Xử lý nhóm lỗi B04–B08. Tổng tăng từ 17/23 lên 19/23, một ca từ chối vẫn trượt. |
+| 28/11 14:27 | Khởi chạy mô phỏng 50 phiên | Dùng tỷ lệ qua Lượt 2 để tính chi phí trên mỗi task thành công. |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
 | Thời điểm | Đổi gì | Vì sao |
 |---|---|---|
-|  |  |  |
+| 28/11 sau 14:30 | Điền kết quả chi phí và xuất bản PDF demo đã cập nhật | Ghi số đo từ mô phỏng và lưu link video dự phòng trong PDF. |
+| 28/11 15:10 | Prototype: trang Tạo đề thành khung chat, thêm hỏi đáp chỉ trong PDF đã đính kèm và 6 tầng phòng vệ L0–L5 (`codebase/guardrails.py`) | Theo yêu cầu nhóm, tham khảo Red Advance của lab Guardrails. Chỉ đổi prototype; `agent.py`, bộ câu thử, chuẩn "đạt" và kết quả các lượt giữ nguyên. |
+| 28/11 15:30 | Prototype: chia chunk hybrid (theo mục, cắt ở cuối câu, gối đầu) và tìm kiếm hybrid BM25 + embedding trộn RRF (`codebase/retrieval.py`, `ai.embed_texts`) | Khớp từ khoá cũ bỏ sót câu hỏi diễn đạt khác chữ tài liệu. Chỉ dùng cho chatbot prototype; eval không đổi. |

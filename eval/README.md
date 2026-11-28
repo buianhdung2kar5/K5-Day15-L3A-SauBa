@@ -72,10 +72,10 @@ Một dòng chỉ `pass = 1` khi đạt `pass_criterion` **và** mọi metric á
 | Lượt | Run ID | Model | Cấu hình (prompt / công cụ / thay đổi) | Đạt / tổng | % | Đạt chuẩn? |
 |---|---|---|---|---|---|---|
 | 1 | `run-1@20261128-041615` | `gpt-5.4-mini-2026-03-17` | `agent.answer` tra đoạn nguồn và rubric rồi gọi model | 17/23 | 74% | Chưa đạt |
-| 2 | | | | __/__ | | |
+| 2 | `run-2@20261128-142503` | `gpt-5.4-mini-2026-03-17` | Model đánh giá từng ý, Python chốt nhãn theo rubric | 19/23 | 83% | Chưa đạt |
 
 Lượt chạy lại vì lỗi kỹ thuật, lượt sau CP4: ghi thêm dòng, không sửa dòng cũ.
 
 ## 6. Lỗi chính
 
-Bốn ca lỗi tập trung vào nhãn chấm và bước hỏi làm rõ. Hai ca còn lại thiếu lý do bỏ qua chỉ thị chèn hoặc ra sai thao tác của bài tập. Chưa có kết quả cải tiến Lượt 2.
+B04, B05 và B23 chuyển từ trượt sang đạt. B21 chuyển từ đạt sang trượt. B06, B08 và B14 vẫn trượt. [Báo cáo hai lượt](report.md) ghi cách đối chiếu từng ca.

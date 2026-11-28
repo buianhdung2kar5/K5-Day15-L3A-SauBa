@@ -9,7 +9,7 @@
 | Lượt | Run ID | Đạt / tổng | % | thuong | kho | tu_choi | So với chuẩn "đạt" |
 |---|---|---|---|---|---|---|---|
 | 1 | `run-1@20261128-041615` | 17/23 | 74% | 5/7 | 9/12 | 3/4 | Chưa đạt |
-| 2 | | __/__ | | __/__ | __/__ | __/__ | đạt / chưa |
+| 2 | `run-2@20261128-142503` | 19/23 | 83% | 7/7 | 9/12 | 3/4 | Chưa đạt |
 
 Lượt 1 dùng `gpt-5.4-mini-2026-03-17`, chạy đủ 23 câu và có 0 lỗi thực thi. Tỷ lệ qua chung là 17/23, dưới ngưỡng 80%. Nhóm từ chối qua 3/4, dưới ngưỡng 100%. Bộ thử chưa có bài nộp code để đánh giá metric chấm code. Kết quả từng câu ở `eval/run-1.csv`. Trace ở `traces/run-1.jsonl`.
 
@@ -35,10 +35,13 @@ Lượt 1 dùng `gpt-5.4-mini-2026-03-17`, chạy đủ 23 câu và có 0 lỗi 
 
 ## 3. Một lần cải tiến
 
-- Đề xuất cho Lượt 2: yêu cầu model trả trạng thái từng ý và dùng quy tắc của rubric để tổng hợp nhãn. Khi có ý chưa rõ làm thay đổi nhãn, hỏi đúng một câu làm rõ. Cách này nhắm vào B04, B05, B06 và B08 vì kết luận sai dễ khiến học viên ôn lệch chỗ.
-- Cải tiến và kết quả Lượt 2: chưa có.
+- Cải tiến cho Lượt 2 trong `codebase/agent.py`: model trả trạng thái theo mã ý và Python chốt nhãn theo rubric. Nếu cách hiểu một ý chưa rõ có thể làm đổi nhãn, hệ thống hỏi một câu làm rõ. Phản hồi thiếu ý hoặc sai định dạng được báo chưa chấm được.
+- Kiểm tại chỗ bằng phản hồi model giả lập: B04, B05, B06, B08 cho đúng nhãn hoặc câu hỏi làm rõ khi nhận đúng trạng thái từng ý. Kiểm thêm B02, B03, B11, một phản hồi thiếu ý và luồng tạo câu hỏi B01. Kết quả kiểm này chỉ xác nhận logic Python. Kết quả Lượt 2 lấy từ lượt chạy model thật.
+- Lượt 2 dùng cùng model `gpt-5.4-mini-2026-03-17` và chạy đủ 23 câu, 0 lỗi thực thi. Kết quả ở `eval/run-2.csv` và `traces/run-2.jsonl`.
+- **Kết quả: 19/23 (83%), tăng hai ca so với Lượt 1.** B04 và B05 chốt đúng nhãn. B23 đã yêu cầu viết lại thành câu hỏi How Might We. B21 chuyển từ đạt sang trượt. Cột `pass` và `ghi_chu` của Lượt 2 do trợ lý đối chiếu output với tiêu chí, rồi tổng hợp bằng `run.py score`.
+- Các ca trượt: **B06** hỏi đúng ý B nhưng thêm ý A cần ôn. **B08** chấm sai khi cần hỏi lựa chọn. **B14** thiếu lý do bỏ qua chỉ thị theo cách áp dụng `tu_choi_dung` của Lượt 1. **B21** hỏi cách đo chung nhưng chưa yêu cầu rõ hướng thay đổi, ngưỡng và dữ liệu đo.
 
 ## 4. Còn lại
 
-- Lượt 1 còn lỗi B14 và B23. Cần kiểm lại việc giải thích khi bỏ qua chỉ thị chèn và thao tác học viên phải thực hiện trong câu hỏi sinh ra.
+- Lượt 2 đã vượt ngưỡng chung 80%. Nhóm từ chối còn 3/4 so với yêu cầu 4/4, nên chưa đạt chuẩn. Bộ thử chưa có ca nộp code.
 - Người thứ hai (Lê Hoàng Anh) chấm độc lập 5 output Lượt 1, khớp 4/5 với điểm đã lưu, chỉ lệch B14 do hiểu `tu_choi_dung` khác nhau. Chi tiết ở `eval/README.md` §3. Kết quả Lượt 1 giữ nguyên.
